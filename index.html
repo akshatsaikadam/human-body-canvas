@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Human Body Canvas</title>
+	
+</head>
+<body>
+	<canvas id="humanBody" height="600px" width="281px"></canvas>
+</body>
+
+<script type="text/javascript">
+	var canvas = document.getElementById('humanBody');
+	ctx = canvas.getContext('2d');
+	var circles = [];
+	canvas.addEventListener('click', function(e){
+		var clickedX = e.pageX - this.offsetLeft;
+		   var clickedY = e.pageY - this.offsetTop;
+		   
+		   for (var i = 0; i < circles.length; i++) {
+		       if (clickedX < circles[i].right) {
+		           alert ('clicked number ' + (i + 1));
+
+		           return
+		       }
+		   }
+	})
+		
+
+		// Create an image element
+		var img = document.createElement('IMG');
+
+		// When the image is loaded, draw it
+		img.onload = function () {
+		    ctx.drawImage(img, 0, 0);
+		}
+
+		// Specify the src to load the image
+		img.src = "256px-Human_body_silhouette.svg.png";
+
+
+		function draw(ctx, x, y, radius) {
+			ctx.beginPath();
+			ctx.arc(x, y, radius, 0, Math.PI*2, true); 
+			ctx.closePath();
+			ctx.fill();
+
+		}
+
+		function circle(x, y, radius) {
+
+			this.left = x - radius;
+		    this.top1 = y - radius;
+		    this.right = x + radius;
+		    this.bottom = y + radius;
+
+		    return this;
+		}
+
+		function drawCircle(ctx, x, y, radius) {
+			draw(ctx, x, y, radius);
+			var circleCtx = circle(x, y, radius);
+
+			circles.push(circleCtx);
+		}
+
+		drawCircle(ctx, 75, 75, 10);
+		drawCircle(ctx, 75, 175, 10);
+
+
+		console.log(circles)
+
+
+
+	</script>
+</html>
