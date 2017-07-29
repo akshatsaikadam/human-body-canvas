@@ -2,24 +2,46 @@
 <html>
 <head>
 	<title>Human Body Canvas</title>
+	<script
+  src="http://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+	<style type="text/css">
+		#humanBody, div {
+			float: left;
+
+		}
+		p {
+			display: none;
+		}
+	</style>
 	
 </head>
 <body>
 	<canvas id="humanBody" height="600px" width="281px"></canvas>
+	<div id="p">
+		<p id="p0">Head</p>
+		<p id="p1">Left shoulder</p>
+		<p id="p2">Right Shoulder</p>
+		<p id="p3">cbdskbk</p>
+		<p id="p4">cbdskbk</p>
+	</div>
+	
 </body>
 
 <script type="text/javascript">
 	var canvas = document.getElementById('humanBody');
 	ctx = canvas.getContext('2d');
 	var circles = [];
-	canvas.addEventListener('click', function(e){
+	canvas.addEventListener('mousemove', function(e){
 		var clickedX = e.pageX - this.offsetLeft;
-		   var clickedY = e.pageY - this.offsetTop;
-		   
+		var clickedY = e.pageY - this.offsetTop;
+		var allP =[];
 		   for (var i = 0; i < circles.length; i++) {
-		       if (clickedX < circles[i].right) {
-		           alert ('clicked number ' + (i + 1));
-
+		       if (clickedX > circles[i].left && clickedY > circles[i].top1 && clickedX < circles[i].right && clickedY < circles[i].bottom) {
+		           //alert ('clicked number ' + (i + 1));
+		           $('#p p').hide();
+		         	document.getElementById('p' +i).style.display = "block";
 		           return
 		       }
 		   }
@@ -43,31 +65,34 @@
 			ctx.arc(x, y, radius, 0, Math.PI*2, true); 
 			ctx.closePath();
 			ctx.fill();
-
 		}
 
-		function circle(x, y, radius) {
-
+		var circle = function(x, y, radius) {
 			this.left = x - radius;
 		    this.top1 = y - radius;
 		    this.right = x + radius;
 		    this.bottom = y + radius;
-
-		    return this;
 		}
 
 		function drawCircle(ctx, x, y, radius) {
 			draw(ctx, x, y, radius);
-			var circleCtx = circle(x, y, radius);
+			var circleCtx = new circle(x, y, radius);
 
 			circles.push(circleCtx);
 		}
 
-		drawCircle(ctx, 75, 75, 10);
-		drawCircle(ctx, 75, 175, 10);
+		drawCircle(ctx, 125, 20, 10);
+		drawCircle(ctx, 75, 122, 10);
+		drawCircle(ctx, 182, 122, 10);
+		
 
 
 		console.log(circles)
+
+
+
+
+
 
 
 
