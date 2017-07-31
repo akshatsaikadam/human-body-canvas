@@ -13,6 +13,7 @@
 		}
 		p {
 			display: none;
+			margin-top: 10px;
 		}
 	</style>
 	
@@ -23,8 +24,6 @@
 		<p id="p0">Head</p>
 		<p id="p1">Left shoulder</p>
 		<p id="p2">Right Shoulder</p>
-		<p id="p3">cbdskbk</p>
-		<p id="p4">cbdskbk</p>
 	</div>
 	
 </body>
@@ -33,7 +32,10 @@
 	var canvas = document.getElementById('humanBody');
 	ctx = canvas.getContext('2d');
 	var circles = [];
-	canvas.addEventListener('mousemove', function(e){
+
+	var canvasW = canvas.offsetWidth;
+	var canvasH = canvas.offsetHeight;
+	canvas.addEventListener('click', function(e){
 		var clickedX = e.pageX - this.offsetLeft;
 		var clickedY = e.pageY - this.offsetTop;
 		var allP =[];
@@ -41,23 +43,72 @@
 		       if (clickedX > circles[i].left && clickedY > circles[i].top1 && clickedX < circles[i].right && clickedY < circles[i].bottom) {
 		           //alert ('clicked number ' + (i + 1));
 		           $('#p p').hide();
+		           /*if(i == 0) {
+		           	drawLine(135, 20, 270, 20);
+		           }*/
+
+		           switch(i) {
+		               case 0:
+		               		//ctx.save();
+		               		ctx.clearRect(0, 0, canvasW, canvasH);
+		               		drawImage();
+		               		drawCircle(ctx, 125, 20, 10);
+		               		drawCircle(ctx, 75, 122, 10);
+		               		drawCircle(ctx, 182, 122, 10);
+		                   drawLine(135, 20, 270, 20);
+		                   //ctx.restore();
+
+		                   break;
+		               case 1:
+		               		ctx.clearRect(0, 0, canvasW, canvasH);
+			               drawImage();
+			               drawCircle(ctx, 125, 20, 10);
+			               drawCircle(ctx, 75, 122, 10);
+			               drawCircle(ctx, 182, 122, 10);
+		                   drawLine(85, 120, 235, 20, 300, 19);
+		                   break;
+                       case 2:
+                       		ctx.clearRect(0, 0, canvasW, canvasH);
+        	               drawImage();
+        	               drawCircle(ctx, 125, 20, 10);
+        	               drawCircle(ctx, 75, 122, 10);
+        	               drawCircle(ctx, 182, 122, 10);
+                           drawLine(190, 115, 235, 20, 300, 19);
+                           break;
+		               default:
+		                   drawLine(135, 20, 270, 20);
+		           }
 		         	document.getElementById('p' +i).style.display = "block";
 		           return
 		       }
 		   }
 	})
+	function drawLine(moveX, moveY, lineX1, lineY1, lineX2, lineY2) {
+		ctx.beginPath();
+		ctx.moveTo(moveX, moveY);
+		ctx.lineTo(lineX1, lineY1);
+		ctx.lineTo(lineX2, lineY2);
+		ctx.stroke();
+	}
 		
 
 		// Create an image element
 		var img = document.createElement('IMG');
-
-		// When the image is loaded, draw it
-		img.onload = function () {
-		    ctx.drawImage(img, 0, 0);
+		
+		function drawImage(onLoad) {
+			// When the image is loaded, draw it
+			if(onLoad){
+				img.onload = function () {
+				    ctx.drawImage(img, 0, 0);
+				}
+			} else {
+				ctx.drawImage(img, 0, 0);
+			}
+			
 		}
-
 		// Specify the src to load the image
 		img.src = "256px-Human_body_silhouette.svg.png";
+
 
 
 		function draw(ctx, x, y, radius) {
@@ -79,11 +130,13 @@
 			var circleCtx = new circle(x, y, radius);
 
 			circles.push(circleCtx);
+			ctx.save();
 		}
 
 		drawCircle(ctx, 125, 20, 10);
 		drawCircle(ctx, 75, 122, 10);
 		drawCircle(ctx, 182, 122, 10);
+		drawImage(true);
 		
 
 
